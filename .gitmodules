@@ -1,0 +1,3 @@
+[submodule "provisioning/roles/scala"]
+	path = provisioning/roles/scala
+	url = git@github.com:jdauphant/ansible-role-scala.git
