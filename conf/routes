@@ -4,9 +4,11 @@
 
 # Home page
 GET     /                           controllers.Application.index
-GET     /questions                  controllers.Questions.index
+GET     /question                   controllers.Questions.index
 GET     /questions/create           controllers.Questions.create
 POST    /questions                  controllers.Questions.save
+GET     /questions                  controllers.Questions.list
+POST    /questions/:questionId/answers      controllers.Answers.save(questionId: Long)
 
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /public/*file               controllers.WebJarAssets.at(file)

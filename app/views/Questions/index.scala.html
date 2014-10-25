@@ -1,15 +1,41 @@
-@(question: Option[Question])
+@(question: Option[Question])(implicit request: play.api.mvc.RequestHeader)
 
 @main("Answer Question") {
 <h1 class="page-header"> Question </h1>
 
-    @question.map { q =>
-        <p>@q.title  "@q.choiceA" or "@q.choiceB"</p>
+@request.flash.get("success").map { message =>
+    <div class="alert alert-success">
+        <strong>Done!</strong> @message
+    </div>
+}
+@request.flash.get("error").map { message =>
+    <div class="alert alert-danger">
+        <strong>Error !</strong> @message
+    </div>
+}
 
+    @question.map { q =>
+<div class="jumbotron">
+        <h2>@q.title</h2>
+        @q.id.map { questionId =>
+            @form(routes.Answers.save(questionId)) {
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-default btn-lg" name="choice" value="A">@q.choiceA</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-default btn-lg" name="choice" value="B">@q.choiceB</button>
+                    </div>
+                </div>
+            }
+        }.getOrElse {
+    <p>Question error</p>
+        }
+</div>
     }.getOrElse {
-<p>No question</p>
+<p>No question available, come later :)</p>
     }
 
-<a href="@routes.Questions.create()">Create question</a>
+
 
 }

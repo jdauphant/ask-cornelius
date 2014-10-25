@@ -1,0 +1,11 @@
+@(elements: helper.FieldElements)
+
+<div class="input-group input-group-lg @if(elements.hasErrors) {has-error}">
+    <span class="input-group-addon">@elements.label</span>
+    @elements.input
+</div>
+@if(elements.hasErrors){
+<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-remove"> </span>@elements.errors.mkString(", ")
+</div>
+}

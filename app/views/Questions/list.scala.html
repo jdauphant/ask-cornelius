@@ -1,0 +1,37 @@
+@(myQuestions: List[Question], myAnsweredQuestions: List[Question])
+
+@import java.text.DateFormat
+
+@questionList(questions: List[Question]) = {
+<ul class="list-group">
+    @questions.map { q =>
+    <li class="list-group-item">
+        <h2>@q.title (@DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.FULL).format(q.creationDate))</h2>
+        @if(q.totalAll==0) {
+        <h3>We can't settle between @q.choiceA and @q.choiceB, come later</h3>
+        } else {
+        <div class="progress">
+            <div class="progress-bar progress-bar-success" style="width: @q.ratioAPerCent%">
+                @q.choiceA @q.ratioAPerCent% (@q.totalA)
+            </div>
+
+            <div class="progress-bar progress-bar-danger" style="width: @q.ratioBPerCent%">
+                @q.choiceB @q.ratioBPerCent% (@q.totalB)
+            </div>
+        </div>
+        }
+    </li>
+    }
+</ul>
+}
+
+@main("Questions list") {
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#myresults" role="tab" data-toggle="tab">My results</a></li>
+    <li><a href="#myansweredquestions" role="tab" data-toggle="tab">My answers</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="myresults">@questionList(myQuestions)</div>
+    <div class="tab-pane" id="myansweredquestions">@questionList(myAnsweredQuestions)</div>
+</div>
+}

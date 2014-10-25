@@ -9,39 +9,54 @@ import java.util.Calendar
 
 import views._
 import models._
+import actions._
 
 case class QuestionData(title: String, choiceA: String, choiceB: String)
 
 object Questions extends Controller {
   val Home = Application.Home
 
+  def index() = UserAuthAction { implicit request =>
+    val question: Option[Question] = request.session.get("userId").map { userId => Question.getOne(userId.toLong) }.
+      getOrElse{ None }
+    Ok(views.html.Questions.index(question))
+  }
+
+  def questionDataToQuestion(question: QuestionData, authorId: Int) = question match {
+    case QuestionData(title,choiceA,choiceB) =>
+      Question(None,title,choiceA,choiceB,authorId,0,0,Calendar.getInstance().getTime())
+  }
   val questionForm = Form(
     mapping(
-      "title" -> nonEmptyText,
-      "choiceA" -> text,
-      "choiceB" -> text
+      "title" -> nonEmptyText(3,140),
+      "choiceA" -> nonEmptyText(1,15),
+      "choiceB" -> nonEmptyText(1,15)
     )(QuestionData.apply)(QuestionData.unapply)
   )
 
-  def questionDataToQuestion(question: QuestionData) = question match {
-    case QuestionData(title,choiceA,choiceB) =>
-      Question(None,title,choiceA,choiceB,1,0,0,Calendar.getInstance().getTime())
-  }
-
-  def index() = Action { implicit request =>
-    Ok(views.html.Questions.index(Question.getOne()))
-  }
-
-  def create() = Action { implicit request =>
+  def create() = UserAuthAction { implicit request =>
     Ok(views.html.Questions.create(questionForm))
   }
 
-  def save = Action { implicit request =>
+  def list() = UserAuthAction { implicit request =>
+    val userId = request.session.get("userId")
+    val myQuestions: List[Question] = userId.map { userId => Question.allFromAuthor(userId.toLong) }.
+      getOrElse{ Nil }
+    val myAnsweredQuestions: List[Question] = userId.map { userId => Question.allFromRespondent(userId.toLong) }.
+      getOrElse{ Nil }
+    Ok(views.html.Questions.list(myQuestions, myAnsweredQuestions))
+  }
+
+  def save() = UserAuthAction { implicit request =>
     questionForm.bindFromRequest.fold(
       formWithErrors => BadRequest(html.Questions.create(formWithErrors)),
       question => {
-        Question.insert(questionDataToQuestion(question))
-        Home.flashing("success" -> "Question has been created")
+        request.session.get("userId").map { userId =>
+          Question.insert(questionDataToQuestion(question,userId.toInt))
+          Home.flashing("success" -> "Question has been created")
+        }.getOrElse {
+          Home.flashing("error" -> "Question was not created")
+        }
       }
     )
   }

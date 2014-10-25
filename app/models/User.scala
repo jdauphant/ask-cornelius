@@ -6,10 +6,9 @@ import play.api.db._
 import play.api.Play.current
 import anorm._
 import anorm.SqlParser._
-import java.io.File
 
 case class User(id: Option[Int],
-                 registration_date: Date)
+                 registrationDate: Date)
 
 object User {
   val user = {
@@ -27,8 +26,8 @@ object User {
             VALUES ({registration_date})
             """
           ).on(
-              'registration_date -> newUser.registration_date
-            ).executeUpdate()
+              'registration_date -> newUser.registrationDate
+            ).executeInsert()
     }
   }
 }

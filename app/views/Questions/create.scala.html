@@ -1,6 +1,7 @@
 @(questionForm: Form[QuestionData])
 
 @import helper._
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @main("Create a question") {
     @form(routes.Questions.save(), 'role -> "form", 'class -> "form-horizontal") {
@@ -10,7 +11,7 @@
             @inputText(questionForm("choiceB"), '_label -> "Second choice", 'placeholder -> "Tea", 'class -> "form-control")
         </p>
         <p>
-            <button type="submit" class="btn btn-primary btn-sm">Add question</button>
+            <button type="submit" class="btn btn-primary btn-lg">Add question</button>
         </p>
     }
 
