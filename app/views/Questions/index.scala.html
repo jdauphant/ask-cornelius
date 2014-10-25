@@ -1,8 +1,15 @@
-@(message: String)
+@(question: Option[Question])
 
-@main("Welcome to Play") {
+@main("Answer Question") {
+<h1 class="page-header"> Question </h1>
 
-<h1 class="page-header"> Hello World </h1>
+    @question.map { q =>
+        <p>@q.title  "@q.choiceA" or "@q.choiceB"</p>
 
-<p>@message</p>
+    }.getOrElse {
+<p>No question</p>
+    }
+
+<a href="@routes.Questions.create()">Create question</a>
+
 }
