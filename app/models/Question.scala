@@ -18,11 +18,11 @@ case class Question(id: Option[Long],
   def totalAll = totalA+totalB
   def ratioAPerCent() = totalAll match {
     case 0 => None
-    case total => (totalA/total)*100
+    case total => (totalA*100/total)
   }
   def ratioBPerCent() = totalAll match {
     case 0 => None
-    case total => (totalB/total)*100
+    case total => (totalB*100/total)
   }
 }
 
