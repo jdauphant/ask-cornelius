@@ -18,7 +18,7 @@ object User {
         User(id, registration_date)
     }
   }
-  def insert(newUser: User) = {
+  def insert(newUser: User): Option[Long] = {
     DB.withConnection { implicit connection =>
           SQL(
             """

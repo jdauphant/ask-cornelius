@@ -9,20 +9,20 @@ import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import models._
+import controllers._
 
 object UserAuthAction extends ActionBuilder[Request] {
   def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]) = {
-    val userId = request.session.get("userId") match {
-      case None => User.insert(User(None,Calendar.getInstance().getTime()))
-      case Some(u) => Some(u)
+    request.session.get("userId") match {
+      case None =>
+        User.insert(User(None,Calendar.getInstance().getTime())).map { id =>
+          Future.successful(Application.Home.withSession( request.session + ("userId" -> id.toString)))
+        }.getOrElse {
+          Logger.warn("Impossible to create an user id")
+          Future.successful(Application.Home)
+        }
+      case Some(u) => block(request)
     }
-    block(request).map {
-      result => userId.map { id=>
-        result.withSession( request.session + ("userId" -> id.toString))
-      }.getOrElse {
-        Logger.warn("Impossible to create an user id")
-        result
-      }
-    }
+
   }
 }
