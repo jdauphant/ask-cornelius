@@ -18,3 +18,7 @@ left: 10px;
 .navbar {
     height: 70px; /* Whatever you want. */
 }
+
+.blackbackground {
+background-color: #000000;
+}

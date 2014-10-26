@@ -6,7 +6,7 @@
 <ul class="list-group">
     @questions.map { q =>
     <li class="list-group-item">
-        <h3>@q.title (@DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.FULL).format(q.creationDate))</h3>
+        <h3>@q.title</h3>
         @if(q.totalAll==0) {
         <h4>We can't settle between @q.choiceA and @q.choiceB, come later</h4>
         } else {
@@ -27,7 +27,7 @@
 
 @main("Questions list") {
 <ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a href="#myresults" role="tab" data-toggle="tab">My results</a></li>
+    <li class="active"><a href="#myresults" role="tab" data-toggle="tab">My questions</a></li>
     <li><a href="#myansweredquestions" role="tab" data-toggle="tab">My answers</a></li>
 </ul>
 <div class="tab-content">
