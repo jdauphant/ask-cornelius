@@ -6,23 +6,25 @@
 <head>
     <title>@title</title>
     <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
     <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="navbar navbar-default" role="navigation">
+<div class="navbar navbar-default navbar-inverse" role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header navbar-center">
-            <a class="navbar-brand" href="@routes.Application.index()">Cornelius</a>
-        </div>
-        <div class="navbar-text navbar-right">
-            <a href="@routes.Questions.list()"><span class="glyphicon glyphicon-signal left"></span></a>
-            <a href="@routes.Questions.create()"><span class="glyphicon glyphicon-plus right"></span></a>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="@routes.Application.index()"><img alt="Brand" src="@routes.Assets.at("images/logo.png")" style="height:40px; width: 40px"> <b>CORNELIUS</b></a>
+            <button type="button" class="btn btn-default navbar-left btn-lg">
+                <a href="@routes.Questions.list()"><span class="glyphicon glyphicon-signal left"></span></a>
+            </button>
+            <button type="button" class="btn btn-default navbar-left btn-lg">
+                <a href="@routes.Questions.create()"><span class="glyphicon glyphicon-plus right"></span></a>
+            </button>
         </div>
     </div>
   </div>
-<div class="container">
+<div class="container container_80">
     @content
 </div>
 <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.min.js"))'></script>

@@ -1,8 +1,6 @@
 @(question: Option[Question])(implicit request: play.api.mvc.RequestHeader)
 
 @main("Answer Question") {
-<h1 class="page-header"> Question </h1>
-
 @request.flash.get("success").map { message =>
     <div class="alert alert-success">
         <strong>Done!</strong> @message
@@ -16,10 +14,12 @@
 
     @question.map { q =>
 <div class="jumbotron">
-        <h2>@q.title</h2>
+        <h2 class="text-center">@q.title</h2>
+        <div style="height:20px;"></div>
         @q.id.map { questionId =>
-            @form(routes.Answers.save(questionId)) {
-                <div class="btn-group btn-group-justified">
+
+            @form(routes.Answers.save(questionId), 'class -> "bottom") {
+                <div class="btn-group btn-group-justified btn-group-lg">
                     <div class="btn-group">
                         <button type="submit" class="btn btn-default btn-lg" name="choice" value="A">@q.choiceA</button>
                     </div>

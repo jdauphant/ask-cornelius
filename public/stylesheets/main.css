@@ -1,0 +1,20 @@
+html,body {height:100%;}
+
+.container_80 {
+height:100%;
+}
+.jumbotron {
+height:70%;
+position:relative;
+}
+
+.bottom {
+position: absolute;
+bottom: 10px;
+right: 10px;
+left: 10px;
+}
+
+.navbar {
+    height: 70px; /* Whatever you want. */
+}

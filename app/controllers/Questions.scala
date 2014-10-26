@@ -29,8 +29,8 @@ object Questions extends Controller {
   val questionForm = Form(
     mapping(
       "title" -> nonEmptyText(3,140),
-      "choiceA" -> nonEmptyText(1,15),
-      "choiceB" -> nonEmptyText(1,15)
+      "choiceA" -> nonEmptyText(1,20),
+      "choiceB" -> nonEmptyText(1,20)
     )(QuestionData.apply)(QuestionData.unapply)
   )
 
