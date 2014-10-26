@@ -1,5 +1,6 @@
 package controllers
 
+import controllers.Application._
 import play.api.mvc._
 import play.api._
 import play.api.data._
@@ -53,9 +54,9 @@ object Questions extends Controller {
       question => {
         request.session.get("userId").map { userId =>
           Question.insert(questionDataToQuestion(question,userId.toInt))
-          Home.flashing("success" -> "Question has been created")
+          Redirect(routes.Questions.create()).flashing("success" -> "Question has been created")
         }.getOrElse {
-          Home.flashing("error" -> "Question was not created")
+          Redirect(routes.Questions.create()).flashing("error" -> "Question was not created")
         }
       }
     )

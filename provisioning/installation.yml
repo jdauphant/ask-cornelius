@@ -1,15 +1,16 @@
 ---
  - hosts: all
    vars:
-     app_git_path: "/opt/ansible_files/cornelius"
+     app_git_path: "/tmp/ansible_files/cornelius"
    pre_tasks:
      - name: Install openjdk
        apt: name=openjdk-7-jdk update_cache=yes cache_valid_time=3600
        when: ansible_os_family == "Debian"
      - name: Ensure file dir exist
        file: state=directory path={{app_git_path}}
+       sudo: no
      - name: Ensure git repository is copied 
-       copy: src=../.git dest={{app_git_path}}
+       synchronize: src=../.git dest={{app_git_path}}
    roles:
      - scala
      - role: playframework
@@ -27,10 +28,19 @@
               - proxy_hide_header X-Powered-By
               - proxy_intercept_errors 'on'
               - proxy_http_version 1.1
-       nginx_sites: 
-          webapp:
+       nginx_sites:
+          st:
               - listen 80
-              - server_name _
+              - server_name www.askcornelius.com
+              - access_log /var/log/nginx/access-wt1-$server_name.log
+              - error_log /var/log/nginx/error-wt1.log
+              - keepalive_timeout 5s
+              - location / {
+                    proxy_pass http://askcornelius.strikingly.com;
+                }
+          webapp:
+              - listen 80 default
+              - server_name app.askcornelius.com
               - access_log /var/log/nginx/access-wt1-$server_name.log
               - error_log /var/log/nginx/error-wt1.log
               - keepalive_timeout 5s

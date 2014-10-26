@@ -26,7 +26,7 @@ object Answers extends Controller {
       answerDate => {
         request.session.get("userId").map { userId =>
           Answer.insert(Answer(questionId, userId.toLong, Some(answerDate.choice.head), Calendar.getInstance().getTime()))
-          Home.flashing("success" -> "Question has been answered")
+          Home
         }.getOrElse {
           Home.flashing("error" -> "Error to register the answer")
         }

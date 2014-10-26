@@ -1,10 +1,22 @@
-@(questionForm: Form[QuestionData])
+@(questionForm: Form[QuestionData])(implicit request: play.api.mvc.RequestHeader)
 
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @main("Create a question") {
-    @form(routes.Questions.save(), 'role -> "form", 'class -> "form-horizontal") {
+@request.flash.get("success").map { message =>
+<div class="alert alert-success">
+    <strong>Done!</strong> @message
+</div>
+}
+@request.flash.get("error").map { message =>
+<div class="alert alert-danger">
+    <strong>Error !</strong> @message
+</div>
+}
+
+
+@form(routes.Questions.save(), 'role -> "form", 'class -> "form-horizontal") {
         <p>
             @inputText(questionForm("title"), '_label -> "Your question", 'placeholder -> "What do you prefer ?", 'class -> "form-control")
             @inputText(questionForm("choiceA"), '_label -> "First choice", 'placeholder -> "Coffee", 'class -> "form-control")
