@@ -1,8 +1,41 @@
 ---
  - hosts: all
+   vars:
+     app_git_path: "/opt/ansible_files/cornelius"
    pre_tasks:
      - name: Install openjdk
        apt: name=openjdk-7-jdk update_cache=yes cache_valid_time=3600
        when: ansible_os_family == "Debian"
+     - name: Ensure file dir exist
+       file: state=directory path={{app_git_path}}
+     - name: Ensure git repository is copied 
+       copy: src=../.git dest={{app_git_path}}
    roles:
      - scala
+     - role: playframework
+       playframework_launcher_path: "/usr/bin/sbt"
+       playframework_git_recursive: "no"
+       playframework_apps:
+        - { name: cornelius, path: "{{app_git_path}}", type: "git", options: "-DapplyEvolutions.default=true -Dconfig.resource=production.conf" }
+     - role: nginx
+       nginx_configs:
+         proxy:
+              - proxy_set_header Host $host
+              - proxy_set_header X-Real-IP $remote_addr
+              - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+              - proxy_set_header X-Forwarded-Proto $scheme
+              - proxy_hide_header X-Powered-By
+              - proxy_intercept_errors 'on'
+              - proxy_http_version 1.1
+       nginx_sites: 
+          webapp:
+              - listen 80
+              - server_name _
+              - access_log /var/log/nginx/access-wt1-$server_name.log
+              - error_log /var/log/nginx/error-wt1.log
+              - keepalive_timeout 5s
+              - location / {
+                    proxy_pass http://localhost:{{playframework_default_listen_port}}/;
+                }
+ 
+        

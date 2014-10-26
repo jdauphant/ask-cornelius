@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu/trusty64"
   config.vm.network :forwarded_port, host: 8080, guest: 80
-  config.vm.network :forwarded_port, host: 9000, guest: 9000
+  config.vm.network :forwarded_port, host: 9080, guest: 9000
 
   config.vm.provision :ansible do |ansible|
         ansible.playbook = "provisioning/installation.yml"
