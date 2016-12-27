@@ -22,6 +22,7 @@ object UserAuthAction extends ActionBuilder[Request] {
           Future.successful(Application.Home)
         }
       case Some(u) => block(request)
+
     }
 
   }
