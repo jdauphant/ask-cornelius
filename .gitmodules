@@ -1,9 +1,9 @@
 [submodule "provisioning/roles/scala"]
 	path = provisioning/roles/scala
-	url = git@github.com:jdauphant/ansible-role-scala.git
+	url = git://github.com/jdauphant/ansible-role-scala.git
 [submodule "provisioning/roles/playframework"]
 	path = provisioning/roles/playframework
-	url = git@github.com:jdauphant/ansible-role-playframework.git
+	url = git://github.com/jdauphant/ansible-role-playframework.git
 [submodule "provisioning/roles/nginx"]
 	path = provisioning/roles/nginx
-	url = git@github.com:jdauphant/ansible-role-nginx.git
+	url = git://github.com/jdauphant/ansible-role-nginx.git
