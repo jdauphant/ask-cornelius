@@ -70,6 +70,6 @@ object Question {
     SQL("SELECT * FROM questions WHERE id IN (SELECT question_id FROM answers WHERE answers.user_id = {respondent_id} ) ORDER BY creation_date DESC LIMIT "+limit).on('respondent_id -> respondentId).as(question *)
   }
   def getOne(authorIdToExclude: Long): Option[Question] = DB.withConnection { implicit connection =>
-    SQL("SELECT * FROM questions WHERE author_id <> {author_id} AND id NOT IN (SELECT question_id FROM answers WHERE answers.user_id = {author_id}) ORDER BY RAND() LIMIT 1").on('author_id -> authorIdToExclude).as(question *).headOption
+    SQL("SELECT * FROM questions WHERE author_id <> {author_id} AND id NOT IN (SELECT question_id FROM answers WHERE answers.user_id = {author_id}) ORDER BY RANDOM() LIMIT 1").on('author_id -> authorIdToExclude).as(question *).headOption
   }
 }
