@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.3.0-2",
   "org.webjars" % "bootstrap" % "3.2.0-2",
-  "mysql" % "mysql-connector-java" % "5.1.33"
+  "org.postgresql" % "postgresql" % "9.4.1210"
 )
 
 TwirlKeys.templateImports += "views.html.helper._"
